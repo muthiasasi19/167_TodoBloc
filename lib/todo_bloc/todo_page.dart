@@ -27,9 +27,9 @@ class _TodoPageState extends State<TodoPage> {
                   Text("Selected Date: "),
                   BlocBuilder<TodoBloc, TodoState>(
                     builder: (context, state) {
-                      if (state is TodoLoaded && state.selectDate != null) {
+                      if (state is TodoLoaded && state.selectedDate != null) {
                         return Text(
-                          '${state.selectDate!.day}/${state.selectDate!.month}/${state.selectDate!.year}',
+                          '${state.selectedDate!.day}/${state.selectedDate!.month}/${state.selectedDate!.year}',
                         );
                       }
                       return Text("No date selected");
@@ -55,7 +55,6 @@ class _TodoPageState extends State<TodoPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
               Form(
                 key: _key,
                 child: Row(
@@ -74,6 +73,25 @@ class _TodoPageState extends State<TodoPage> {
                           return null;
                         },
                       ),
+                    ),
+
+                    FilledButton(
+                      onPressed: () {
+                        if (_key.currentState!.validate()) {
+                          final selectedDate = context.read<TodoBloc>().state;
+                          if (selectedDate is TodoLoaded) {
+                            context.read<TodoBloc>().add(
+                              TodoEventAdd(
+                                title: _controller.text,
+                                date: selectedDate.selectedDate!,
+                              ),
+                            );
+                            _controller.clear();
+                            selectedDate.selectedDate = null;
+                          }
+                        }
+                      },
+                      child: Text("Tambah"),
                     ),
                   ],
                 ),
