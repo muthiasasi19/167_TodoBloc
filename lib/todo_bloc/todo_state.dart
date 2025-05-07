@@ -5,3 +5,10 @@ sealed class TodoState {}
 final class TodoInitial extends TodoState {}
 
 final class TodoLoading extends TodoState {}
+
+final class TodoLoaded extends TodoState {
+  final List<Todo> todos;
+  DateTime? selectDate;
+
+  TodoLoaded({required this.todos, required this.selectDate});
+}
