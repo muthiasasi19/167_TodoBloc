@@ -13,3 +13,9 @@ final class TodoEventComplete extends TodoEvent {
 
   TodoEventComplete({required this.index});
 }
+
+final class TodoSelectDate extends TodoEvent {
+  final DateTime date;
+
+  TodoSelectDate({required this.date});
+}
