@@ -34,6 +34,25 @@ class TodoPage extends StatefulWidget {
                   ),
                 ],
               ),
+              SizedBox(width: 16.0),
+              Expanded(
+                child:ElevatedButton(
+                  onPressed: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                       firstDate: DateTime(2000), 
+                       lastDate: DateTime(2000),
+                       ).then(selectedDate) {
+                        if (selectedDate != null) {
+                          context.read<TodoBloc>().add(
+                            TodoSelectDate(date: selectedDate),
+                          );
+                        }
+                       }
+                  },
+                  child: Text('Select Date')) 
+                  ), 
             ],
           ),
         ),
