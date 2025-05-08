@@ -24,37 +24,41 @@ class _TodoPageState extends State<TodoPage> {
               Text("Todo List"),
               Row(
                 children: [
-                  Text("Selected Date: "),
-                  BlocBuilder<TodoBloc, TodoState>(
-                    builder: (context, state) {
-                      if (state is TodoLoaded && state.selectedDate != null) {
-                        return Text(
-                          '${state.selectedDate!.day}/${state.selectedDate!.month}/${state.selectedDate!.year}',
-                        );
-                      }
-                      return Text("No date selected");
-                    },
+                  Expanded(
+                    child: BlocBuilder<TodoBloc, TodoState>(
+                      builder: (context, state) {
+                        String text = "No date selected";
+                        if (state is TodoLoaded && state.selectedDate != null) {
+                          text =
+                              '${state.selectedDate!.day}/${state.selectedDate!.month}/${state.selectedDate!.year}';
+                        }
+                        return Text("Selected Date: $text");
+                      },
+                    ),
                   ),
                   SizedBox(width: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2100),
-                      ).then((selectedDate) {
-                        if (selectedDate != null) {
-                          context.read<TodoBloc>().add(
-                            TodoSelectDate(date: selectedDate),
-                          );
-                        }
-                      });
-                    },
-                    child: Text('Select Date'),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        ).then((selectedDate) {
+                          if (selectedDate != null) {
+                            context.read<TodoBloc>().add(
+                              TodoSelectDate(date: selectedDate),
+                            );
+                          }
+                        });
+                      },
+                      child: Text('Select Date'),
+                    ),
                   ),
                 ],
               ),
+
               Form(
                 key: _key,
                 child: Row(
