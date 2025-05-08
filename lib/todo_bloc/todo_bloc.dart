@@ -6,7 +6,7 @@ part 'todo_event.dart';
 part 'todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  TodoBloc() : super(TodoLoaded(todos: [], selectDate: null)) {
+  TodoBloc() : super(TodoLoaded(todos: [], selectedDate: null)) {
     on<TodoEventAdd>((event, emit) {
       final currentState = state;
       if (currentState is TodoLoaded) {
@@ -16,7 +16,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
         );
 
         emit(
-          TodoLoaded(todos: updateTodos, selectDate: currentState.selectDate),
+          TodoLoaded(
+            todos: updateTodos,
+            selectedDate: currentState.selectedDate,
+          ),
         );
       }
     });
@@ -24,7 +27,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<TodoSelectDate>((event, emit) {
       final currentState = state;
       if (currentState is TodoLoaded) {
-        emit(TodoLoaded(todos: currentState.todos, selectDate: event.date));
+        emit(TodoLoaded(todos: currentState.todos, selectedDate: event.date));
       }
     });
 
@@ -40,7 +43,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
             date: updateTodos[event.index].date,
           );
           emit(
-            TodoLoaded(todos: updateTodos, selectDate: currentState.selectDate),
+            TodoLoaded(
+              todos: updateTodos,
+              selectedDate: currentState.selectedDate,
+            ),
           );
         }
       }
